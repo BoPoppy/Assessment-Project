@@ -25,13 +25,21 @@ export const makeStore = () => {
         ? getDefaultMiddleware({
             serializableCheck: {
               // Ignore these field paths in all actions
-              ignoredActionPaths: ['payload.onSuccess', 'payload.onFailed'],
+              ignoredActionPaths: [
+                'payload.onSuccess',
+                'payload.onFailed',
+                'payload.formDataSubmit',
+              ],
             },
           }).concat(sagaMiddleware)
         : getDefaultMiddleware({
             serializableCheck: {
               // Ignore these field paths in all actions
-              ignoredActionPaths: ['payload.onSuccess', 'payload.onFailed'],
+              ignoredActionPaths: [
+                'payload.onSuccess',
+                'payload.onFailed',
+                'payload.formDataSubmit',
+              ],
             },
           }).concat(sagaMiddleware, logger),
   });
