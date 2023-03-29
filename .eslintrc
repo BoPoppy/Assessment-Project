@@ -7,14 +7,7 @@
     "React": "readonly"
   },
   "rules": {
-    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }],
-    "no-extra-boolean-cast": "warn",
-    "no-restricted-imports": [
-      "error",
-      {
-        "patterns": ["@mui/*/*/*"]
-      }
-    ]
+    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
   },
   "extends": [
     "react-app",
