@@ -5,8 +5,8 @@ import { LOGIN_BODY_TYPE } from 'models/authentication';
 export const fetchInvoicesApi = async (params: any) => {
   return AppAPIInstance.get(API_ENDPOINTS.fetch_invoices, {
     headers: {
-      'Operation-Mode': 'SYNC',
-      Cookie: 'JSESSIONID=F08B9B07E6494F9C63FA46AFE7CB3814',
+      // 'Operation-Mode': 'SYNC',
+      // Cookie: 'JSESSIONID=F08B9B07E6494F9C63FA46AFE7CB3814',
       'Content-Type': 'application/json',
     },
     params: {
