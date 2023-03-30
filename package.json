@@ -35,7 +35,7 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://BoPoppy.github.io/Assesment-Project/",
+  "homepage": "https://BoPoppy.github.io/Assessment-Project/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -46,7 +46,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "test:ci": "react-scripts test --ci --coverage",
-    "predeploy": "npm run build",
+    "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
