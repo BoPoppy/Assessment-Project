@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/Assesment-Project/static/css/main.8e6fd9bb.css",
-    "main.js": "/Assesment-Project/static/js/main.35f99814.js",
-    "static/js/567.a05798ae.chunk.js": "/Assesment-Project/static/js/567.a05798ae.chunk.js",
-    "static/js/140.997ba9b1.chunk.js": "/Assesment-Project/static/js/140.997ba9b1.chunk.js",
-    "static/js/787.9fbef363.chunk.js": "/Assesment-Project/static/js/787.9fbef363.chunk.js",
-    "static/js/281.5f47d719.chunk.js": "/Assesment-Project/static/js/281.5f47d719.chunk.js",
-    "static/js/463.653b2684.chunk.js": "/Assesment-Project/static/js/463.653b2684.chunk.js",
-    "index.html": "/Assesment-Project/index.html",
-    "main.8e6fd9bb.css.map": "/Assesment-Project/static/css/main.8e6fd9bb.css.map",
-    "main.35f99814.js.map": "/Assesment-Project/static/js/main.35f99814.js.map",
-    "567.a05798ae.chunk.js.map": "/Assesment-Project/static/js/567.a05798ae.chunk.js.map",
-    "140.997ba9b1.chunk.js.map": "/Assesment-Project/static/js/140.997ba9b1.chunk.js.map",
-    "787.9fbef363.chunk.js.map": "/Assesment-Project/static/js/787.9fbef363.chunk.js.map",
-    "281.5f47d719.chunk.js.map": "/Assesment-Project/static/js/281.5f47d719.chunk.js.map",
-    "463.653b2684.chunk.js.map": "/Assesment-Project/static/js/463.653b2684.chunk.js.map"
+    "main.css": "/Assessment-Project/static/css/main.8e6fd9bb.css",
+    "main.js": "/Assessment-Project/static/js/main.0a4ea26e.js",
+    "static/js/567.a05798ae.chunk.js": "/Assessment-Project/static/js/567.a05798ae.chunk.js",
+    "static/js/140.997ba9b1.chunk.js": "/Assessment-Project/static/js/140.997ba9b1.chunk.js",
+    "static/js/787.9fbef363.chunk.js": "/Assessment-Project/static/js/787.9fbef363.chunk.js",
+    "static/js/281.5f47d719.chunk.js": "/Assessment-Project/static/js/281.5f47d719.chunk.js",
+    "static/js/463.653b2684.chunk.js": "/Assessment-Project/static/js/463.653b2684.chunk.js",
+    "index.html": "/Assessment-Project/index.html",
+    "main.8e6fd9bb.css.map": "/Assessment-Project/static/css/main.8e6fd9bb.css.map",
+    "main.0a4ea26e.js.map": "/Assessment-Project/static/js/main.0a4ea26e.js.map",
+    "567.a05798ae.chunk.js.map": "/Assessment-Project/static/js/567.a05798ae.chunk.js.map",
+    "140.997ba9b1.chunk.js.map": "/Assessment-Project/static/js/140.997ba9b1.chunk.js.map",
+    "787.9fbef363.chunk.js.map": "/Assessment-Project/static/js/787.9fbef363.chunk.js.map",
+    "281.5f47d719.chunk.js.map": "/Assessment-Project/static/js/281.5f47d719.chunk.js.map",
+    "463.653b2684.chunk.js.map": "/Assessment-Project/static/js/463.653b2684.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8e6fd9bb.css",
-    "static/js/main.35f99814.js"
+    "static/js/main.0a4ea26e.js"
   ]
 }
