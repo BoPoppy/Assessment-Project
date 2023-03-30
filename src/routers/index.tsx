@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN } from 'constant/global';
+import { ACCESS_TOKEN, ORG_TOKEN } from 'constant/global';
 import { lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
@@ -9,6 +9,7 @@ const AppRoute = () => {
   const Dashboard = lazy(() => import('../modules/Dashboard'));
 
   const token = localStorage.getItem(ACCESS_TOKEN);
+  const org_token = localStorage.getItem(ORG_TOKEN);
 
   return (
     <Routes>
@@ -17,7 +18,7 @@ const AppRoute = () => {
         element={
           <PrivateRoute
             redirectPath={APP_ROUTES.DASH_BOARD}
-            isLoggedIn={!token}
+            isLoggedIn={!token || !org_token}
           >
             <Authentication />
           </PrivateRoute>
@@ -26,7 +27,7 @@ const AppRoute = () => {
       <Route
         index
         element={
-          <PrivateRoute isLoggedIn={Boolean(token)}>
+          <PrivateRoute isLoggedIn={Boolean(token) && Boolean(org_token)}>
             <Dashboard />
           </PrivateRoute>
         }

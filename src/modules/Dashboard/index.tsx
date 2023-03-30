@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { useAppDispatch } from 'store/hooks';
+import { FETCH_INVOICES_REQUEST } from 'store/reducers/invoices/actionTypes';
 
-type Props = {};
-
-const Dashboard = (props: Props) => {
+const Dashboard = () => {
+  const dispatch = useAppDispatch();
   const handleLogout = () => {
     localStorage.clear();
     window.location.reload();
   };
+
+  useEffect(() => {
+    dispatch({
+      type: FETCH_INVOICES_REQUEST,
+    });
+  }, []);
 
   return (
     <Grid>
