@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { APP_ROUTES } from 'constant/app-routes';
 import { ACCESS_TOKEN, ORG_TOKEN } from 'constant/global';
 
 const token = localStorage.getItem(ACCESS_TOKEN);
@@ -32,6 +33,12 @@ AppAPIInstance.interceptors.response.use(
     return response;
   },
   function (error) {
+    if (error.response?.status === 401) {
+      localStorage.clear();
+      const _window: any = window;
+      // _window.location = '/';
+      _window.location.reload();
+    }
     return Promise.reject(error);
   }
 );

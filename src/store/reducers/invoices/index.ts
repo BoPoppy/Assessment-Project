@@ -6,7 +6,18 @@ export interface invoiceReducerType {
 }
 
 const initialState: invoiceReducerType = {
-  invoices_list: {},
+  invoices_list: {
+    data: [],
+    paging: {
+      pageNumber: 0,
+      pageSize: 0,
+      totalRecords: 0,
+    },
+    status: {
+      code: '',
+      message: '',
+    },
+  },
 };
 
 const invoiceSlice = createSlice({
@@ -17,7 +28,15 @@ const invoiceSlice = createSlice({
       state: invoiceReducerType,
       action: PayloadAction<INVOICE_RESPONSE_TYPE>
     ) {
-      state.invoices_list = action.payload;
+      if (action.payload.paging.pageNumber <= 1) {
+        state.invoices_list = action.payload;
+      } else {
+        state.invoices_list = {
+          ...state.invoices_list,
+          ...action.payload,
+          data: state.invoices_list.data.concat(action.payload.data),
+        };
+      }
     },
   },
 });

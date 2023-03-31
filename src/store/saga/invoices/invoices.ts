@@ -8,20 +8,20 @@ import { toast } from 'react-toastify';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchInvoicesApi } from 'services/invoice';
 import { updateIsGlobalLoading } from 'store/reducers/global';
+import { setInvoicesList } from 'store/reducers/invoices';
 import { FETCH_INVOICES_REQUEST } from 'store/reducers/invoices/actionTypes';
-import { updateUserProfile } from 'store/reducers/users';
-import { GET_USERS_PROFILE_REQUEST } from 'store/reducers/users/actionTypes';
 
 function* fetchInvoiceRequest(
-  action: PayloadAction<FETCH_INVOICE_PARAMS_TYPE>
+  action: PayloadAction<{ params: FETCH_INVOICE_PARAMS_TYPE }>
 ) {
   try {
-    yield put(updateIsGlobalLoading(true));
+    if (action.payload.params.pageNum === 1)
+      yield put(updateIsGlobalLoading(true));
     const response: AxiosResponse<INVOICE_RESPONSE_TYPE> = yield call(
       fetchInvoicesApi,
-      action.payload
+      action.payload.params
     );
-    console.log(response);
+    yield put(setInvoicesList(response.data));
     yield put(updateIsGlobalLoading(false));
   } catch (error) {
     console.log(error);

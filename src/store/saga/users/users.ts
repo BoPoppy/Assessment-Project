@@ -1,7 +1,4 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError, AxiosResponse } from 'axios';
-import { toast } from 'react-toastify';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import { updateIsGlobalLoading } from 'store/reducers/global';
 import { updateUserProfile } from 'store/reducers/users';
 import { GET_USERS_PROFILE_REQUEST } from 'store/reducers/users/actionTypes';
