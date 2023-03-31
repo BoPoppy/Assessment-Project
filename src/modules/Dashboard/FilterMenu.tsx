@@ -4,39 +4,106 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import SearchIcon from '@mui/icons-material/Search';
+import { FETCH_INVOICE_PARAMS_TYPE } from 'models/invoice';
 
-type Props = {};
+type Props = {
+  dataFilter: FETCH_INVOICE_PARAMS_TYPE;
+  setDataFilter: Dispatch<SetStateAction<FETCH_INVOICE_PARAMS_TYPE>>;
+};
 
-const FilterMenu = (props: Props) => {
+const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleClickSearch = () => {
+    setDataFilter((oldState) => {
+      return {
+        ...oldState,
+        keyword: inputRef.current?.value || '',
+      };
+    });
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDataFilter((oldState) => {
+      return {
+        ...oldState,
+        status: event.target.name === 'All' ? '' : event.target.name,
+      };
+    });
+  };
 
   return (
     <Grid container direction="column" maxWidth="400px">
       <Typography>Invoices</Typography>
-      <TextField placeholder="Search invoice" />
+      <TextField
+        placeholder="Search"
+        id="Search"
+        inputRef={inputRef}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickSearch}
+                edge="end"
+              >
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
       <Typography>Invoice Status</Typography>
       <FormGroup>
         <FormControlLabel
-          control={<Checkbox defaultChecked name="All" />}
+          control={
+            <Checkbox
+              checked={dataFilter.status === ''}
+              onChange={handleChange}
+              name="All"
+            />
+          }
           label="All"
         />
         <FormControlLabel
-          control={<Checkbox defaultChecked name="Paid" />}
+          control={
+            <Checkbox
+              checked={dataFilter.status === 'Paid'}
+              onChange={handleChange}
+              name="Paid"
+            />
+          }
           label="Paid"
         />
         <FormControlLabel
-          control={<Checkbox defaultChecked name="Unpaid" />}
+          control={
+            <Checkbox
+              checked={dataFilter.status === 'Unpaid'}
+              onChange={handleChange}
+              name="Unpaid"
+            />
+          }
           label="Unpaid"
         />
         <FormControlLabel
-          control={<Checkbox defaultChecked name="Overdue" />}
+          control={
+            <Checkbox
+              checked={dataFilter.status === 'Overdue'}
+              onChange={handleChange}
+              name="Overdue"
+            />
+          }
           label="Overdue"
         />
       </FormGroup>

@@ -28,15 +28,16 @@ const invoiceSlice = createSlice({
       state: invoiceReducerType,
       action: PayloadAction<INVOICE_RESPONSE_TYPE>
     ) {
-      if (action.payload.paging.pageNumber <= 1) {
-        state.invoices_list = action.payload;
-      } else {
-        state.invoices_list = {
-          ...state.invoices_list,
-          ...action.payload,
-          data: state.invoices_list.data.concat(action.payload.data),
-        };
-      }
+      // if (action.payload.paging.pageNumber <= 1) {
+      //   state.invoices_list = action.payload;
+      // } else {
+      //   state.invoices_list = {
+      //     ...state.invoices_list,
+      //     ...action.payload,
+      //     data: state.invoices_list.data.concat(action.payload.data),
+      //   };
+      // }
+      state.invoices_list = action.payload;
     },
   },
 });

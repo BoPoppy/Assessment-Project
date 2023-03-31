@@ -10,3 +10,12 @@ export const fetchInvoicesApi = async (params: FETCH_INVOICE_PARAMS_TYPE) => {
     params,
   });
 };
+
+export const createNewInvoiceApi = async (data: any) => {
+  return AppAPIInstance.post(API_ENDPOINTS.create_invoice, data, {
+    headers: {
+      'operation-mode': 'SYNC',
+      'Content-Type': 'application/json',
+    },
+  });
+};

@@ -8,6 +8,7 @@ export interface FETCH_INVOICE_PARAMS_TYPE {
   status: string;
   fromDate: string;
   toDate: string;
+  keyword: string;
 }
 
 export interface INVOICE_RESPONSE_TYPE {

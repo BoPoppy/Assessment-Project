@@ -4,6 +4,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TablePagination,
   TableRow,
 } from '@mui/material';
 import HeadTable from 'components/common/HeadTable';
@@ -108,6 +109,7 @@ const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
         ...oldState,
         ordering: isAsc ? 'DESCENDING' : 'ASCENDING',
         sortBy: property,
+        pageNum: 1,
       };
     });
   };
@@ -122,37 +124,63 @@ const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
     });
   };
 
+  const handleChangePage = (
+    _: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+    newPage: number
+  ) => {
+    setDataFilter((oldState) => {
+      return {
+        ...oldState,
+        pageNum: newPage + 1,
+      };
+    });
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDataFilter((oldState) => {
+      return {
+        ...oldState,
+        pageNum: 1,
+        pageSize: +event.target.value,
+      };
+    });
+  };
+
   return (
     <Grid container>
-      <InfiniteScroll
-        dataLength={invoices_list.data.length}
-        next={fetchMoreData}
-        hasMore={true}
-        scrollableTarget="scrollableDiv"
-        loader={<div>loading...</div>}
+      <TableContainer
+        sx={{
+          maxHeight: 'calc(100vh - 64px - 2 * 65px)',
+        }}
+        id="scrollableDiv"
       >
-        <TableContainer
-          sx={{
-            maxHeight: 'calc(100vh - 64px - 2 * 45px)',
-          }}
-          id="scrollableDiv"
-        >
-          <Table>
-            <HeadTable<INVOICE_DATA>
-              order={dataFilter.ordering}
-              orderBy={dataFilter.sortBy}
-              headCells={headCells}
-              onRequestSort={handleRequestSort}
-              hasActionColumn={false}
-            />
-            <TableBody>
-              {invoices_list.data.map((row) => (
-                <InvoiceRow row={row} key={row.invoiceId} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </InfiniteScroll>
+        <Table stickyHeader>
+          <HeadTable<INVOICE_DATA>
+            order={dataFilter.ordering}
+            orderBy={dataFilter.sortBy}
+            headCells={headCells}
+            onRequestSort={handleRequestSort}
+          />
+          <TableBody>
+            {invoices_list.data.map((row) => (
+              <InvoiceRow row={row} key={row.invoiceId} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Grid container justifyContent="flex-end">
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={invoices_list.paging.totalRecords}
+          rowsPerPage={invoices_list.paging.pageSize}
+          page={invoices_list.paging.pageNumber - 1}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Grid>
     </Grid>
   );
 };

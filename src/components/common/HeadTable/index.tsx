@@ -18,52 +18,27 @@ interface EnhancedTableProps<T> {
   ) => void;
   rowCount?: number;
   onChangeCheckBoxAll?: (_event: React.ChangeEvent<HTMLInputElement>) => void;
-  order?: Order;
-  orderBy?: string;
-  isCheckbox?: boolean;
+  order: Order;
+  orderBy: string;
   headCells: readonly HeadCell<T>[];
-  numSelected?: number;
-  hasActionColumn: boolean;
 }
 
 const HeadTable = <T,>({
   order,
   orderBy,
-  isCheckbox,
-  onChangeCheckBoxAll,
   onRequestSort,
   headCells,
-  numSelected = 0,
-  rowCount = 0,
-  hasActionColumn,
 }: EnhancedTableProps<T>) => {
   const createSortHandler =
     (property: keyof T) => (event: React.MouseEvent<unknown>) => {
       onRequestSort && onRequestSort(event, property);
     };
 
+  console.log(order === 'DESCENDING');
+
   return (
     <TableHead>
       <TableRow hover={false}>
-        {isCheckbox && (
-          <TableCell
-            sx={{
-              textAlign: 'center',
-              fontWeight: 600,
-              fontSize: 14,
-              lineHeight: '100%',
-              color: 'gray.black',
-              borderBottom: '3px solid #DEE2E6',
-              borderRight: '1px solid #DEE2E6',
-            }}
-          >
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={rowCount > 0 && numSelected === rowCount}
-              onChange={onChangeCheckBoxAll}
-            />
-          </TableCell>
-        )}
         {headCells.map((headCell, index) => (
           <TableCell
             key={headCell.id as string}
@@ -82,9 +57,7 @@ const HeadTable = <T,>({
               color: 'gray.black',
               borderBottom: '3px solid #DEE2E6',
               borderRight:
-                index === headCells.length - 1 && !hasActionColumn
-                  ? '0px'
-                  : '1px solid #DEE2E6',
+                index === headCells.length - 1 ? '0px' : '1px solid #DEE2E6',
             }}
           >
             {headCell.isSort ? (
@@ -99,11 +72,7 @@ const HeadTable = <T,>({
                 }
                 onClick={createSortHandler(headCell.id)}
                 IconComponent={
-                  orderBy === headCell.id
-                    ? order === 'DESCENDING'
-                      ? ArrowDownwardIcon
-                      : ArrowUpwardIcon
-                    : SortIcon
+                  orderBy === headCell.id ? ArrowDownwardIcon : SortIcon
                 }
                 hideSortIcon={true}
               >
@@ -114,23 +83,6 @@ const HeadTable = <T,>({
             )}
           </TableCell>
         ))}
-        {hasActionColumn ? (
-          <TableCell
-            align="left"
-            padding="none"
-            sx={{
-              padding: '15px 12px 20px',
-              fontWeight: 600,
-              fontSize: 14,
-              lineHeight: '100%',
-              color: 'gray.black',
-              borderBottom: '3px solid #DEE2E6',
-              borderRight: '0px',
-            }}
-          >
-            Action
-          </TableCell>
-        ) : null}
       </TableRow>
     </TableHead>
   );

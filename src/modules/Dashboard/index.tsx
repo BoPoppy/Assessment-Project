@@ -11,6 +11,7 @@ import {
   TextField,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { FETCH_INVOICES_REQUEST } from 'store/reducers/invoices/actionTypes';
@@ -18,19 +19,25 @@ import LoadingFullPage from 'components/common/LoadingFullPage';
 import FilterMenu from './FilterMenu';
 import { FETCH_INVOICE_PARAMS_TYPE } from 'models/invoice';
 import InvoiceTable from './InvoiceTable';
+import { useTheme } from '@mui/material/styles';
+import AddIcon from '@mui/icons-material/Add';
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   const { is_global_loading } = useAppSelector((state) => state.global);
+  const { invoices_list } = useAppSelector((state) => state.invoices);
+  const theme = useTheme();
+  const isBreakpointDownMD = useMediaQuery(theme.breakpoints.down('md'));
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [dataFilter, setDataFilter] = useState<FETCH_INVOICE_PARAMS_TYPE>({
     pageNum: 1,
     fromDate: '',
     ordering: 'ASCENDING',
-    pageSize: 20,
+    pageSize: 10,
     sortBy: '',
     status: '',
     toDate: '',
+    keyword: '',
   });
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -45,6 +52,8 @@ const Dashboard = () => {
     localStorage.clear();
     window.location.reload();
   };
+
+  const handleCreateInvoice = () => {};
 
   useEffect(() => {
     dispatch({
@@ -100,11 +109,28 @@ const Dashboard = () => {
           p: { xs: 2, md: 4 },
         }}
       >
-        <Grid item xs={0} md={4} container>
-          <FilterMenu />
-        </Grid>
-        <Grid item xs={12} md={8} container>
-          <InvoiceTable dataFilter={dataFilter} setDataFilter={setDataFilter} />
+        {!isBreakpointDownMD ? (
+          <Grid item md={4} container>
+            <FilterMenu dataFilter={dataFilter} setDataFilter={setDataFilter} />
+          </Grid>
+        ) : null}
+        <Grid item xs={12} md={8} container direction="column">
+          <Grid container mb={4}>
+            <Grid item container xs={6} alignItems="center">
+              <Typography variant="h4">Invoices</Typography>
+            </Grid>
+            <Grid item container xs={6} justifyContent="flex-end">
+              <Button variant="contained" startIcon={<AddIcon />}>
+                Create New Invoice
+              </Button>
+            </Grid>
+          </Grid>
+          {invoices_list.paging.pageNumber >= 1 && (
+            <InvoiceTable
+              dataFilter={dataFilter}
+              setDataFilter={setDataFilter}
+            />
+          )}
         </Grid>
       </Grid>
     </Grid>
