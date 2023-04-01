@@ -13,6 +13,7 @@ import { FETCH_INVOICE_PARAMS_TYPE, INVOICE_DATA } from 'models/invoice';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useAppSelector } from 'store/hooks';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import moment from 'moment';
 
 const headCells: readonly HeadCell<INVOICE_DATA>[] = [
   {
@@ -26,14 +27,14 @@ const headCells: readonly HeadCell<INVOICE_DATA>[] = [
     id: 'createdAt',
     numeric: false,
     disablePadding: true,
-    isSort: false,
+    isSort: true,
     label: 'Invoice Date',
   },
   {
     id: 'dueDate',
     numeric: false,
     disablePadding: true,
-    isSort: false,
+    isSort: true,
     label: 'Due Date',
   },
   {
@@ -46,22 +47,22 @@ const headCells: readonly HeadCell<INVOICE_DATA>[] = [
   {
     id: 'status',
     disablePadding: true,
-    isSort: true,
-    numeric: true,
+    isSort: false,
+    numeric: false,
     label: 'Status',
   },
   {
     id: 'customer',
     disablePadding: true,
-    isSort: true,
-    numeric: true,
+    isSort: false,
+    numeric: false,
     label: 'Customer Name',
   },
   {
     id: 'referenceNo',
     disablePadding: true,
-    isSort: true,
-    numeric: true,
+    isSort: false,
+    numeric: false,
     label: 'Reference Number',
   },
 ];
@@ -74,7 +75,7 @@ const InvoiceRow = ({ row }: CourseRowProps) => {
   return (
     <TableRow key={row.invoiceId}>
       <TableCell>{row.invoiceNumber}</TableCell>
-      <TableCell>{row.createdAt}</TableCell>
+      <TableCell>{moment(row.createdAt).format('YYYY-MM-DD')}</TableCell>
       <TableCell>{row.dueDate}</TableCell>
       <TableCell>{row.totalAmount}</TableCell>
       <TableCell>{row.status[0].key}</TableCell>
@@ -114,15 +115,15 @@ const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
     });
   };
 
-  const fetchMoreData = () => {
-    setDataFilter((oldState) => {
-      return {
-        ...oldState,
-        pageNum: oldState.pageNum + 1,
-        pageSize: invoices_list.paging.pageSize,
-      };
-    });
-  };
+  // const fetchMoreData = () => {
+  //   setDataFilter((oldState) => {
+  //     return {
+  //       ...oldState,
+  //       pageNum: oldState.pageNum + 1,
+  //       pageSize: invoices_list.paging.pageSize,
+  //     };
+  //   });
+  // };
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -152,7 +153,7 @@ const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
     <Grid container>
       <TableContainer
         sx={{
-          maxHeight: 'calc(100vh - 64px - 2 * 65px)',
+          maxHeight: 'calc(100vh - 64px - 2 * 100px)',
         }}
         id="scrollableDiv"
       >

@@ -1,6 +1,7 @@
 import {
   Button,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
@@ -8,12 +9,20 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  FormHelperText,
 } from '@mui/material';
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import SearchIcon from '@mui/icons-material/Search';
 import { FETCH_INVOICE_PARAMS_TYPE } from 'models/invoice';
+import moment from 'moment';
 
 type Props = {
   dataFilter: FETCH_INVOICE_PARAMS_TYPE;
@@ -23,13 +32,15 @@ type Props = {
 const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [isErrorDate, setIsErrorDate] = useState<boolean>(false);
 
   const handleClickSearch = () => {
     setDataFilter((oldState) => {
       return {
         ...oldState,
-        keyword: inputRef.current?.value || '',
+        keyword: searchKeyword,
+        pageNum: 1,
       };
     });
   };
@@ -39,31 +50,65 @@ const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
       return {
         ...oldState,
         status: event.target.name === 'All' ? '' : event.target.name,
+        pageNum: 1,
       };
     });
   };
 
+  const onClickSubmitDate = () => {
+    if (startDate && endDate && moment(startDate).isAfter(moment(endDate))) {
+      setIsErrorDate(true);
+      return;
+    }
+    setIsErrorDate(false);
+    setDataFilter((oldData) => {
+      return {
+        ...oldData,
+        fromDate: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
+        toDate: endDate ? moment(endDate).format('YYYY-MM-DD') : '',
+        pageNum: 1,
+      };
+    });
+  };
+
+  const handleChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(event.target.value);
+  };
+
+  useEffect(() => {
+    if (dataFilter.fromDate) {
+      setStartDate(moment(dataFilter.fromDate, 'YYYY-MM-DD').toDate());
+    }
+    if (dataFilter.toDate) {
+      setEndDate(moment(dataFilter.toDate, 'YYYY-MM-DD').toDate());
+    }
+    setSearchKeyword(dataFilter.keyword);
+  }, [dataFilter.fromDate, dataFilter.keyword, dataFilter.toDate]);
+
   return (
-    <Grid container direction="column" maxWidth="400px">
+    <Grid container direction="column">
       <Typography>Invoices</Typography>
-      <TextField
-        placeholder="Search"
-        id="Search"
-        inputRef={inputRef}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickSearch}
-                edge="end"
-              >
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
+      <FormControl
+        sx={{
+          maxWidth: '400px',
         }}
-      />
+      >
+        <TextField
+          placeholder="Search"
+          id="Search"
+          value={searchKeyword}
+          onChange={handleChangeKeyword}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleClickSearch} edge="end">
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </FormControl>
       <Typography>Invoice Status</Typography>
       <FormGroup>
         <FormControlLabel
@@ -130,9 +175,18 @@ const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
               }
             />
           </Grid>
-          <Button color="secondary" variant="contained">
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={onClickSubmitDate}
+          >
             Submit
           </Button>
+          {isErrorDate && (
+            <FormHelperText error={isErrorDate}>
+              Please select a valid from date and to date.
+            </FormHelperText>
+          )}
         </Grid>
       </Grid>
     </Grid>

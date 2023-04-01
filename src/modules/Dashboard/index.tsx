@@ -21,6 +21,8 @@ import { FETCH_INVOICE_PARAMS_TYPE } from 'models/invoice';
 import InvoiceTable from './InvoiceTable';
 import { useTheme } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
+import FilterDialog from './FilterDialog';
+import CreateInvoiceDialog from './CreateInvoiceDialog';
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
@@ -108,6 +110,7 @@ const Dashboard = () => {
         sx={{
           p: { xs: 2, md: 4 },
         }}
+        spacing={4}
       >
         {!isBreakpointDownMD ? (
           <Grid item md={4} container>
@@ -116,13 +119,24 @@ const Dashboard = () => {
         ) : null}
         <Grid item xs={12} md={8} container direction="column">
           <Grid container mb={4}>
-            <Grid item container xs={6} alignItems="center">
+            <Grid item container xs={12} md={6} alignItems="center">
               <Typography variant="h4">Invoices</Typography>
             </Grid>
-            <Grid item container xs={6} justifyContent="flex-end">
-              <Button variant="contained" startIcon={<AddIcon />}>
-                Create New Invoice
-              </Button>
+            <Grid
+              item
+              container
+              xs={12}
+              md={6}
+              justifyContent="flex-end"
+              alignItems="center"
+            >
+              {isBreakpointDownMD ? (
+                <FilterDialog
+                  dataFilter={dataFilter}
+                  setDataFilter={setDataFilter}
+                />
+              ) : null}
+              <CreateInvoiceDialog />
             </Grid>
           </Grid>
           {invoices_list.paging.pageNumber >= 1 && (
