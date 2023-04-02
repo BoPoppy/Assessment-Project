@@ -58,7 +58,6 @@ const FilterDialog = ({ dataFilter, setDataFilter }: Props) => {
     reset,
     setValue,
     control,
-    setError,
     getValues,
     formState: { errors },
   } = useForm<FormFilterDataType>({
@@ -104,6 +103,11 @@ const FilterDialog = ({ dataFilter, setDataFilter }: Props) => {
     handleClose();
   };
 
+  const onClearDate = () => {
+    setValue('fromDate', null);
+    setValue('toDate', null);
+  };
+
   useEffect(() => {
     reset({
       fromDate: dataFilter.fromDate
@@ -126,131 +130,192 @@ const FilterDialog = ({ dataFilter, setDataFilter }: Props) => {
   return (
     <>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
+        Open filter
       </Button>
       <Dialog open={open} onClose={handleClose} fullScreen={fullScreen}>
-        <DialogTitle id="alert-dialog-title">Filter</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Filter Popup</DialogTitle>
         <DialogContent>
           <form id="form-filter" onSubmit={handleSubmit(onSubmit)}>
             <Controller
               render={({ field }) => (
-                <Grid container direction="column">
-                  <InputLabel htmlFor="Keyword">Keyword</InputLabel>
+                <Grid container direction="column" mb={2}>
+                  <InputLabel
+                    htmlFor="Keyword"
+                    sx={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                    }}
+                  >
+                    Keyword
+                  </InputLabel>
                   <TextField {...field} placeholder="Keyword" id="Keyword" />
                 </Grid>
               )}
               name="keyword"
               control={control}
             />
-            <Controller
-              render={({ field }) => (
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={field.value === ''}
-                        onChange={() => field.onChange('')}
-                        name="All"
+            <Grid container mb={2}>
+              <Controller
+                render={({ field }) => (
+                  <Grid container direction="column">
+                    <Typography fontWeight="bold">Invoice Status</Typography>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={field.value === ''}
+                            onChange={() => field.onChange('')}
+                            name="All"
+                          />
+                        }
+                        label="All"
                       />
-                    }
-                    label="All"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={field.value === 'Paid'}
-                        onChange={(event) => field.onChange(event.target.name)}
-                        name="Paid"
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={field.value === 'Paid'}
+                            onChange={(event) =>
+                              field.onChange(event.target.name)
+                            }
+                            name="Paid"
+                          />
+                        }
+                        label="Paid"
                       />
-                    }
-                    label="Paid"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={field.value === 'Unpaid'}
-                        onChange={(event) => field.onChange(event.target.name)}
-                        name="Unpaid"
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={field.value === 'Unpaid'}
+                            onChange={(event) =>
+                              field.onChange(event.target.name)
+                            }
+                            name="Unpaid"
+                          />
+                        }
+                        label="Unpaid"
                       />
-                    }
-                    label="Unpaid"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={field.value === 'Overdue'}
-                        onChange={(event) => field.onChange(event.target.name)}
-                        name="Overdue"
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={field.value === 'Due'}
+                            onChange={(event) =>
+                              field.onChange(event.target.name)
+                            }
+                            name="Due"
+                          />
+                        }
+                        label="Due"
                       />
-                    }
-                    label="Overdue"
-                  />
-                </FormGroup>
-              )}
-              name="status"
-              control={control}
-            />
-            <Controller
-              name="fromDate"
-              control={control}
-              rules={{
-                validate: {
-                  mustBeforeEnd: (val) => {
-                    if (getValues('toDate')) {
-                      if (moment(val).isAfter(moment(getValues('toDate')))) {
-                        return 'Please select a valid from date';
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={field.value === 'Overdue'}
+                            onChange={(event) =>
+                              field.onChange(event.target.name)
+                            }
+                            name="Overdue"
+                          />
+                        }
+                        label="Overdue"
+                      />
+                    </FormGroup>
+                  </Grid>
+                )}
+                name="status"
+                control={control}
+              />
+            </Grid>
+            <Grid container direction="column">
+              <Typography fontWeight="bold">Dates</Typography>
+              <Grid container direction="column" mt={1}>
+                <Typography variant="body2">From</Typography>
+                <Controller
+                  name="fromDate"
+                  control={control}
+                  rules={{
+                    validate: {
+                      mustBeforeEnd: (val) => {
+                        if (getValues('toDate')) {
+                          if (
+                            moment(val).isAfter(moment(getValues('toDate')))
+                          ) {
+                            return 'Please select a valid from date';
+                          }
+                        }
+                        return true;
+                      },
+                    },
+                  }}
+                  render={({ field }) => (
+                    <DatePicker
+                      selected={field.value}
+                      onChange={field.onChange}
+                      customInput={
+                        <TextField
+                          size="small"
+                          InputProps={{ readOnly: true }}
+                        />
                       }
-                    }
-                    return true;
-                  },
-                },
-              }}
-              render={({ field }) => (
-                <DatePicker
-                  selected={field.value}
-                  onChange={field.onChange}
-                  customInput={
-                    <TextField size="small" InputProps={{ readOnly: true }} />
-                  }
+                    />
+                  )}
                 />
-              )}
-            />
-            <Controller
-              name="toDate"
-              control={control}
-              rules={{
-                validate: {
-                  mustAfterTo: (val) => {
-                    if (getValues('fromDate')) {
-                      if (!moment(val).isAfter(moment(getValues('fromDate')))) {
-                        return 'Please select a valid to date';
+              </Grid>
+              <Grid container direction="column" mt={1}>
+                <Typography variant="body2">To</Typography>
+                <Controller
+                  name="toDate"
+                  control={control}
+                  rules={{
+                    validate: {
+                      mustAfterTo: (val) => {
+                        if (getValues('fromDate')) {
+                          if (
+                            !moment(val).isAfter(moment(getValues('fromDate')))
+                          ) {
+                            return 'Please select a valid to date';
+                          }
+                        }
+                        return true;
+                      },
+                    },
+                  }}
+                  render={({ field }) => (
+                    <DatePicker
+                      selected={field.value}
+                      onChange={field.onChange}
+                      customInput={
+                        <TextField
+                          size="small"
+                          InputProps={{ readOnly: true }}
+                        />
                       }
-                    }
-                    return true;
-                  },
-                },
-              }}
-              render={({ field }) => (
-                <DatePicker
-                  selected={field.value}
-                  onChange={field.onChange}
-                  customInput={
-                    <TextField size="small" InputProps={{ readOnly: true }} />
-                  }
+                    />
+                  )}
                 />
-              )}
-            />
+              </Grid>
+            </Grid>
             {(!!errors.fromDate || !!errors.toDate) && (
               <FormHelperText error={!!errors.fromDate || !!errors.toDate}>
                 Please select a valid from date and to date.
               </FormHelperText>
             )}
+            <Button
+              onClick={onClearDate}
+              variant="outlined"
+              sx={{
+                mt: 2,
+              }}
+            >
+              Clear Date
+            </Button>
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-          <Button type="submit" form="form-filter" autoFocus>
-            Agree
+          <Button onClick={handleClose} variant="outlined">
+            Close
+          </Button>
+          <Button type="submit" form="form-filter" variant="contained">
+            Submit
           </Button>
         </DialogActions>
       </Dialog>

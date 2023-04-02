@@ -55,8 +55,6 @@ const Dashboard = () => {
     window.location.reload();
   };
 
-  const handleCreateInvoice = () => {};
-
   useEffect(() => {
     dispatch({
       type: FETCH_INVOICES_REQUEST,
@@ -105,48 +103,60 @@ const Dashboard = () => {
           </Menu>
         </Toolbar>
       </AppBar>
-      <Grid
-        container
+      <Container
         sx={{
-          p: { xs: 2, md: 4 },
+          '@media (min-width: 1200px)': {
+            maxWidth: '1920px',
+          },
         }}
-        spacing={4}
       >
-        {!isBreakpointDownMD ? (
-          <Grid item md={4} container>
-            <FilterMenu dataFilter={dataFilter} setDataFilter={setDataFilter} />
-          </Grid>
-        ) : null}
-        <Grid item xs={12} md={8} container direction="column">
-          <Grid container mb={4}>
-            <Grid item container xs={12} md={6} alignItems="center">
-              <Typography variant="h4">Invoices</Typography>
+        <Grid
+          container
+          sx={{
+            p: { xs: 2, md: 4 },
+          }}
+          spacing={4}
+        >
+          {!isBreakpointDownMD ? (
+            <Grid item md={4} container>
+              <FilterMenu
+                dataFilter={dataFilter}
+                setDataFilter={setDataFilter}
+              />
             </Grid>
-            <Grid
-              item
-              container
-              xs={12}
-              md={6}
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              {isBreakpointDownMD ? (
-                <FilterDialog
-                  dataFilter={dataFilter}
-                  setDataFilter={setDataFilter}
-                />
-              ) : null}
-              <CreateInvoiceDialog />
+          ) : null}
+          <Grid item xs={12} md={8} container direction="column">
+            <Grid container mb={4}>
+              <Grid item container xs={12} md={6} alignItems="center">
+                <Typography variant="h4">Invoices</Typography>
+              </Grid>
+              <Grid
+                item
+                container
+                xs={12}
+                md={6}
+                justifyContent="flex-end"
+                alignItems="center"
+                gap={2}
+              >
+                {isBreakpointDownMD ? (
+                  <FilterDialog
+                    dataFilter={dataFilter}
+                    setDataFilter={setDataFilter}
+                  />
+                ) : null}
+                <CreateInvoiceDialog />
+              </Grid>
             </Grid>
+            {invoices_list.paging.pageNumber >= 1 && (
+              <InvoiceTable
+                dataFilter={dataFilter}
+                setDataFilter={setDataFilter}
+              />
+            )}
           </Grid>
-          {invoices_list.paging.pageNumber >= 1 && (
-            <InvoiceTable
-              dataFilter={dataFilter}
-              setDataFilter={setDataFilter}
-            />
-          )}
         </Grid>
-      </Grid>
+      </Container>
     </Grid>
   );
 };

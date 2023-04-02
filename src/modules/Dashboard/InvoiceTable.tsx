@@ -6,6 +6,7 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
+  Chip,
 } from '@mui/material';
 import HeadTable from 'components/common/HeadTable';
 import { HeadCell } from 'models/global';
@@ -78,7 +79,20 @@ const InvoiceRow = ({ row }: CourseRowProps) => {
       <TableCell>{moment(row.createdAt).format('YYYY-MM-DD')}</TableCell>
       <TableCell>{row.dueDate}</TableCell>
       <TableCell>{row.totalAmount}</TableCell>
-      <TableCell>{row.status[0].key}</TableCell>
+      <TableCell>
+        <Chip
+          label={row.status[0].key}
+          color={
+            row.status[0].key === 'Paid'
+              ? 'success'
+              : row.status[0].key === 'Unpaid'
+              ? 'warning'
+              : row.status[0].key === 'Due'
+              ? 'info'
+              : 'error'
+          }
+        />
+      </TableCell>
       <TableCell
         sx={{
           minWidth: '190px',

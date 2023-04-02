@@ -14,7 +14,7 @@ export const fetchInvoicesApi = async (params: FETCH_INVOICE_PARAMS_TYPE) => {
 export const createNewInvoiceApi = async (data: any) => {
   return AppAPIInstance.post(API_ENDPOINTS.create_invoice, data, {
     headers: {
-      'operation-mode': 'SYNC',
+      'Operation-Mode': 'SYNC',
       'Content-Type': 'application/json',
     },
   });
