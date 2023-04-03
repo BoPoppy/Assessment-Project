@@ -163,6 +163,17 @@ const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
     });
   };
 
+  const numEmptyRows =
+    dataFilter.pageNum > 0
+      ? Math.max(
+          0,
+          (1 + dataFilter.pageNum) * dataFilter.pageSize -
+            invoices_list.data.length
+        )
+      : 0;
+
+  const newPaddingHeight = 53 * numEmptyRows;
+
   return (
     <Grid container>
       <TableContainer
@@ -183,6 +194,15 @@ const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
             {invoices_list.data.map((row) => (
               <InvoiceRow row={row} key={row.invoiceId} />
             ))}
+            {newPaddingHeight > 0 && (
+              <TableRow
+                style={{
+                  height: newPaddingHeight,
+                }}
+              >
+                <TableCell colSpan={7} />
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>

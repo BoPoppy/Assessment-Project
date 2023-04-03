@@ -120,6 +120,13 @@ const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{
+            onKeyDown: (e) => {
+              if (e.key === 'Enter') {
+                handleClickSearch();
+              }
+            },
+          }}
         />
       </FormControl>
       <Divider
