@@ -2,13 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   AppBar,
   Avatar,
-  Button,
   Container,
   Grid,
   IconButton,
   Menu,
   MenuItem,
-  TextField,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -20,7 +18,6 @@ import FilterMenu from './FilterMenu';
 import { FETCH_INVOICE_PARAMS_TYPE } from 'models/invoice';
 import InvoiceTable from './InvoiceTable';
 import { useTheme } from '@mui/material/styles';
-import AddIcon from '@mui/icons-material/Add';
 import FilterDialog from './FilterDialog';
 import CreateInvoiceDialog from './CreateInvoiceDialog';
 

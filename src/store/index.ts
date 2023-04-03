@@ -9,7 +9,7 @@ export interface SagaStore extends Store {
   sagaTask?: Task;
 }
 
-const reducer: typeof rootReducer = (state, action) => {
+export const reducer: typeof rootReducer = (state, action) => {
   return rootReducer(state, action);
 };
 

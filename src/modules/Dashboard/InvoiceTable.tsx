@@ -12,7 +12,7 @@ import {
 import HeadTable from 'components/common/HeadTable';
 import { HeadCell } from 'models/global';
 import { FETCH_INVOICE_PARAMS_TYPE, INVOICE_DATA } from 'models/invoice';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useAppSelector } from 'store/hooks';
 import moment from 'moment';
 
@@ -112,6 +112,7 @@ type Props = {
 
 const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
   const { invoices_list } = useAppSelector((state) => state.invoices);
+  const [paddingHeight, setPaddingHeight] = useState<number>(0);
 
   const handleRequestSort = (
     _: React.MouseEvent<unknown>,
@@ -149,6 +150,18 @@ const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
         pageNum: newPage + 1,
       };
     });
+    // Avoid a layout jump when reaching the last page with empty rows.
+    const numEmptyRows =
+      newPage > 0
+        ? Math.max(
+            0,
+            (1 + newPage) * dataFilter.pageSize -
+              invoices_list.paging.totalRecords
+          )
+        : 0;
+
+    const newPaddingHeight = 53 * numEmptyRows;
+    setPaddingHeight(newPaddingHeight);
   };
 
   const handleChangeRowsPerPage = (
@@ -161,18 +174,8 @@ const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
         pageSize: +event.target.value,
       };
     });
+    setPaddingHeight(0);
   };
-
-  const numEmptyRows =
-    dataFilter.pageNum > 0
-      ? Math.max(
-          0,
-          (1 + dataFilter.pageNum) * dataFilter.pageSize -
-            invoices_list.data.length
-        )
-      : 0;
-
-  const newPaddingHeight = 53 * numEmptyRows;
 
   return (
     <Grid container>
@@ -194,10 +197,10 @@ const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
             {invoices_list.data.map((row) => (
               <InvoiceRow row={row} key={row.invoiceId} />
             ))}
-            {newPaddingHeight > 0 && (
+            {paddingHeight > 0 && (
               <TableRow
                 style={{
-                  height: newPaddingHeight,
+                  height: paddingHeight,
                 }}
               >
                 <TableCell colSpan={7} />

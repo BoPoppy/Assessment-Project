@@ -1,5 +1,5 @@
 import { ACCESS_TOKEN, ORG_TOKEN } from 'constant/global';
-import { lazy, useEffect } from 'react';
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import { APP_ROUTES } from 'constant/app-routes';

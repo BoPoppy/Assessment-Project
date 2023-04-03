@@ -147,6 +147,7 @@ const CreateInvoiceDialog = (_props: Props) => {
         variant="contained"
         onClick={handleClickOpen}
         startIcon={<AddIcon />}
+        data-testid="create-invoice-btn"
       >
         Create New Invoice
       </Button>

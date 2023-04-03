@@ -1,7 +1,6 @@
 import {
   Button,
   Container,
-  FormControl,
   Grid,
   IconButton,
   InputAdornment,
@@ -39,8 +38,6 @@ const Login = () => {
 
   const {
     handleSubmit,
-    reset,
-    setValue,
     control,
     setError,
     formState: { errors },
@@ -138,6 +135,7 @@ const Login = () => {
                             onClick={handleClickShowPassword}
                             onMouseDown={handleMouseDownPassword}
                             edge="end"
+                            data-testid="btn-password"
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
@@ -153,7 +151,7 @@ const Login = () => {
               name="password"
               control={control}
             />
-            <Button type="submit" variant="contained">
+            <Button type="submit" variant="contained" data-testid="btn-submit">
               Submit
             </Button>
           </Grid>
