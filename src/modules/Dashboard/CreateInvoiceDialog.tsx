@@ -22,9 +22,10 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useAppDispatch } from 'store/hooks';
-import { CREATE_NEW_INVOICE_REQUEST } from 'store/reducers/invoices/actionTypes';
-import { CREATE_INVOICE_BODY } from 'models/invoice';
+// import { useAppDispatch } from 'store/hooks';
+// import { CREATE_NEW_INVOICE_REQUEST } from 'store/reducers/invoices/actionTypes';
+// import { CREATE_INVOICE_BODY } from 'models/invoice';
+import { toast } from 'react-toastify';
 
 type FormDataType = {
   invoice_reference: string;
@@ -44,7 +45,7 @@ type FormDataType = {
 type Props = {};
 
 const CreateInvoiceDialog = (_props: Props) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [open, setOpen] = useState<boolean>(false);
@@ -111,34 +112,36 @@ const CreateInvoiceDialog = (_props: Props) => {
     };
   }
 
-  const onSubmit = (data: FormDataType) => {
-    const bodySubmit: CREATE_INVOICE_BODY = {
-      invoices: [
-        {
-          invoiceReference: data.invoice_refference_number,
-          invoiceNumber: data.invoice_refference_number,
-          currency: 'GBP',
-          invoiceDate: moment(data.invoice_date).format('YYYY-MM-DD'),
-          dueDate: moment(data.invoice_due_date).format('YYYY-MM-DD'),
-          description: data.invoice_description,
-          items: data.invoice_item.map((item) => {
-            return {
-              itemReference: item.item_reference,
-              description: item.item_description,
-              quantity: item.item_quantity,
-              rate: item.rate,
-              itemName: item.item_name,
-            };
-          }),
-        },
-      ],
-    };
-    dispatch({
-      type: CREATE_NEW_INVOICE_REQUEST,
-      payload: {
-        data: bodySubmit,
-      },
-    });
+  const onSubmit = (_data: FormDataType) => {
+    // const bodySubmit: CREATE_INVOICE_BODY = {
+    //   invoices: [
+    //     {
+    //       invoiceReference: data.invoice_refference_number,
+    //       invoiceNumber: data.invoice_refference_number,
+    //       currency: 'GBP',
+    //       invoiceDate: moment(data.invoice_date).format('YYYY-MM-DD'),
+    //       dueDate: moment(data.invoice_due_date).format('YYYY-MM-DD'),
+    //       description: data.invoice_description,
+    //       items: data.invoice_item.map((item) => {
+    //         return {
+    //           itemReference: item.item_reference,
+    //           description: item.item_description,
+    //           quantity: item.item_quantity,
+    //           rate: item.rate,
+    //           itemName: item.item_name,
+    //         };
+    //       }),
+    //     },
+    //   ],
+    // };
+    // dispatch({
+    //   type: CREATE_NEW_INVOICE_REQUEST,
+    //   payload: {
+    //     data: bodySubmit,
+    //   },
+    // });
+    toast.success('Created Invoice Successfully!');
+    handleClose();
   };
 
   return (

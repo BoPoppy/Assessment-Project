@@ -1,14 +1,7 @@
-import {
-  Checkbox,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-} from '@mui/material';
+import { TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { HeadCell, Order } from 'models/global';
 import React from 'react';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import SortIcon from '@mui/icons-material/Sort';
 
 interface EnhancedTableProps<T> {
