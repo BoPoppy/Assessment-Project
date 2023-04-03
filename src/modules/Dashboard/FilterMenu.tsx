@@ -13,13 +13,7 @@ import {
   InputLabel,
   Divider,
 } from '@mui/material';
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import SearchIcon from '@mui/icons-material/Search';
@@ -80,6 +74,7 @@ const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
   const onClickClearDate = () => {
     setStartDate(null);
     setEndDate(null);
+    setIsErrorDate(false);
   };
 
   useEffect(() => {
@@ -234,7 +229,7 @@ const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
               variant="contained"
               onClick={onClickSubmitDate}
             >
-              Submit
+              Filter Date
             </Button>
           </Grid>
           {isErrorDate && (

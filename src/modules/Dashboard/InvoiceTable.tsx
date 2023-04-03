@@ -7,13 +7,13 @@ import {
   TablePagination,
   TableRow,
   Chip,
+  Paper,
 } from '@mui/material';
 import HeadTable from 'components/common/HeadTable';
 import { HeadCell } from 'models/global';
 import { FETCH_INVOICE_PARAMS_TYPE, INVOICE_DATA } from 'models/invoice';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { useAppSelector } from 'store/hooks';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import moment from 'moment';
 
 const headCells: readonly HeadCell<INVOICE_DATA>[] = [
@@ -78,7 +78,7 @@ const InvoiceRow = ({ row }: CourseRowProps) => {
       <TableCell>{row.invoiceNumber}</TableCell>
       <TableCell>{moment(row.createdAt).format('YYYY-MM-DD')}</TableCell>
       <TableCell>{row.dueDate}</TableCell>
-      <TableCell>{row.totalAmount}</TableCell>
+      <TableCell>£{row.totalAmount}</TableCell>
       <TableCell>
         <Chip
           label={row.status[0].key}
@@ -170,6 +170,7 @@ const InvoiceTable = ({ dataFilter, setDataFilter }: Props) => {
           maxHeight: 'calc(100vh - 64px - 2 * 100px)',
         }}
         id="scrollableDiv"
+        component={Paper}
       >
         <Table stickyHeader>
           <HeadTable<INVOICE_DATA>

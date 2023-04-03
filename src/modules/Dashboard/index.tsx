@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   AppBar,
   Avatar,
@@ -26,6 +26,7 @@ import CreateInvoiceDialog from './CreateInvoiceDialog';
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
+  const appBarRef = useRef<HTMLDivElement | null>(null);
   const { is_global_loading } = useAppSelector((state) => state.global);
   const { invoices_list } = useAppSelector((state) => state.invoices);
   const theme = useTheme();
@@ -65,99 +66,111 @@ const Dashboard = () => {
   }, [dataFilter, dispatch]);
 
   return (
-    <Grid
-      container
-      direction="column"
-      sx={{
-        minHeight: '100%',
-      }}
-    >
+    <>
       <LoadingFullPage isLoading={is_global_loading} />
-      <AppBar position="static" component="nav">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            SimpleInvoice
-          </Typography>
-          <IconButton onClick={handleOpenUserMenu}>
-            <Avatar />
-          </IconButton>
-          <Menu
-            sx={{ mt: '45px' }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            <MenuItem onClick={handleLogout}>
-              <Typography textAlign="center">Logout</Typography>
-            </MenuItem>
-          </Menu>
-        </Toolbar>
-      </AppBar>
-      <Container
+      <Grid
+        container
+        direction="column"
         sx={{
-          '@media (min-width: 1200px)': {
-            maxWidth: '1920px',
-          },
+          minHeight: '100%',
         }}
       >
-        <Grid
-          container
+        <AppBar position="fixed" ref={appBarRef}>
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              SimpleInvoice
+            </Typography>
+            <IconButton onClick={handleOpenUserMenu}>
+              <Avatar />
+            </IconButton>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem onClick={handleLogout}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
+            </Menu>
+          </Toolbar>
+        </AppBar>
+        <Container
           sx={{
-            p: { xs: 2, md: 4 },
+            '@media (min-width: 1200px)': {
+              maxWidth: '1920px',
+            },
+            mt: `${appBarRef.current?.clientHeight}px`,
           }}
-          spacing={4}
         >
-          {!isBreakpointDownMD ? (
-            <Grid item md={4} container>
-              <FilterMenu
-                dataFilter={dataFilter}
-                setDataFilter={setDataFilter}
-              />
-            </Grid>
-          ) : null}
-          <Grid item xs={12} md={8} container direction="column">
-            <Grid container mb={4}>
-              <Grid item container xs={12} md={6} alignItems="center">
-                <Typography variant="h4">Invoices</Typography>
-              </Grid>
+          <Grid
+            container
+            sx={{
+              p: { xs: 2, md: 4 },
+              maxHeight: '100%',
+            }}
+            spacing={4}
+          >
+            {!isBreakpointDownMD ? (
               <Grid
                 item
+                md={4}
                 container
-                xs={12}
-                md={6}
-                justifyContent="flex-end"
-                alignItems="center"
-                gap={2}
+                sx={{
+                  maxHeight: 'calc(100vh - 64px - 2 * 40px)',
+                  overflowY: 'scroll',
+                }}
               >
-                {isBreakpointDownMD ? (
-                  <FilterDialog
-                    dataFilter={dataFilter}
-                    setDataFilter={setDataFilter}
-                  />
-                ) : null}
-                <CreateInvoiceDialog />
+                <FilterMenu
+                  dataFilter={dataFilter}
+                  setDataFilter={setDataFilter}
+                />
               </Grid>
+            ) : null}
+            <Grid item xs={12} md={8} container direction="column">
+              <Grid container mb={4}>
+                <Grid item container xs={12} md={6} alignItems="center">
+                  <Typography variant="h4">Invoices</Typography>
+                </Grid>
+                <Grid
+                  item
+                  container
+                  xs={12}
+                  md={6}
+                  justifyContent="flex-end"
+                  alignItems="center"
+                  gap={2}
+                >
+                  {isBreakpointDownMD ? (
+                    <FilterDialog
+                      dataFilter={dataFilter}
+                      setDataFilter={setDataFilter}
+                    />
+                  ) : null}
+                  <CreateInvoiceDialog />
+                </Grid>
+              </Grid>
+              {invoices_list.paging.pageNumber >= 1 && (
+                <InvoiceTable
+                  dataFilter={dataFilter}
+                  setDataFilter={setDataFilter}
+                />
+              )}
             </Grid>
-            {invoices_list.paging.pageNumber >= 1 && (
-              <InvoiceTable
-                dataFilter={dataFilter}
-                setDataFilter={setDataFilter}
-              />
-            )}
           </Grid>
-        </Grid>
-      </Container>
-    </Grid>
+        </Container>
+      </Grid>
+    </>
   );
 };
 

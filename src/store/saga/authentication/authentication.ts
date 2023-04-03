@@ -37,6 +37,7 @@ function* loginRequest(
   } catch (error) {
     console.log(error);
     yield put(updateIsGlobalLoading(false));
+    toast.error('Invalid credentials!');
   }
 }
 

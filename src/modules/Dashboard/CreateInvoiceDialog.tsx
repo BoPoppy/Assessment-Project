@@ -29,8 +29,9 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useAppDispatch } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { CREATE_NEW_INVOICE_REQUEST } from 'store/reducers/invoices/actionTypes';
+import LoadingFullPage from 'components/common/LoadingFullPage';
 
 type FormDataType = {
   invoice_reference: string;
@@ -51,6 +52,7 @@ type Props = {};
 
 const CreateInvoiceDialog = (props: Props) => {
   const dispatch = useAppDispatch();
+  const { is_global_loading } = useAppSelector((state) => state.global);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [open, setOpen] = useState<boolean>(false);
@@ -172,6 +174,7 @@ const CreateInvoiceDialog = (props: Props) => {
         }}
         fullScreen={fullScreen}
       >
+        <LoadingFullPage isLoading={is_global_loading} />
         <DialogTitle id="alert-dialog-title">Create Invoice</DialogTitle>
         <DialogContent>
           <form id="form-create-invoice" onSubmit={handleSubmit(onSubmit)}>

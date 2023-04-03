@@ -13,8 +13,6 @@ import {
   CREATE_NEW_INVOICE_REQUEST,
   FETCH_INVOICES_REQUEST,
 } from 'store/reducers/invoices/actionTypes';
-import { updateUserProfile } from 'store/reducers/users';
-import { GET_USERS_PROFILE_REQUEST } from 'store/reducers/users/actionTypes';
 
 function* fetchInvoiceRequest(
   action: PayloadAction<{ params: FETCH_INVOICE_PARAMS_TYPE }>

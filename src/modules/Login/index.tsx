@@ -75,7 +75,11 @@ const Login = () => {
   };
 
   return (
-    <Container>
+    <Container
+      sx={{
+        maxWidth: { xs: '450px' },
+      }}
+    >
       <LoadingFullPage isLoading={is_global_loading} />
       <Grid container direction="column">
         <Typography

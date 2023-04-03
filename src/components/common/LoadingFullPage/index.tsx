@@ -7,7 +7,7 @@ type Props = {
 const LoadingFullPage = ({ isLoading }: Props) => {
   return (
     <Backdrop
-      sx={{ color: 'primary.main', zIndex: (theme) => theme.zIndex.modal + 1 }}
+      sx={{ color: 'primary.main', zIndex: (theme) => theme.zIndex.modal + 3 }}
       open={isLoading}
     >
       <CircularProgress color="inherit" />
