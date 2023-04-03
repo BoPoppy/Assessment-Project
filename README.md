@@ -9,7 +9,6 @@ This project uses Reactjs as the base framework for Front-end development. For s
 1. [Engine Locking](#engine-locking)
 1. [Code Formatting and Quality Tools](#code-formatting-and-quality-tools)
 1. [Git Hooks](#git-hooks)
-1. [VS Code Configuration](#vs-code-configuration)
 1. [Directory Structure](#directory-structure)
 1. [Testing](#testing)
 
