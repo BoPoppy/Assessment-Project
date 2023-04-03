@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import {
-  AppBar,
-  Avatar,
   Button,
-  Container,
   Grid,
-  IconButton,
-  Menu,
-  MenuItem,
   TextField,
-  Toolbar,
   Typography,
   useMediaQuery,
   Dialog,
@@ -29,9 +22,9 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { useAppDispatch } from 'store/hooks';
 import { CREATE_NEW_INVOICE_REQUEST } from 'store/reducers/invoices/actionTypes';
-import LoadingFullPage from 'components/common/LoadingFullPage';
+import { CREATE_INVOICE_BODY } from 'models/invoice';
 
 type FormDataType = {
   invoice_reference: string;
@@ -50,9 +43,8 @@ type FormDataType = {
 
 type Props = {};
 
-const CreateInvoiceDialog = (props: Props) => {
+const CreateInvoiceDialog = (_props: Props) => {
   const dispatch = useAppDispatch();
-  const { is_global_loading } = useAppSelector((state) => state.global);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [open, setOpen] = useState<boolean>(false);
@@ -60,6 +52,7 @@ const CreateInvoiceDialog = (props: Props) => {
   const handleClickOpen = () => {
     setOpen(true);
     reset({
+      invoice_reference: '',
       invoice_refference_number: '',
       invoice_date: null,
       invoice_description: '',
@@ -80,16 +73,9 @@ const CreateInvoiceDialog = (props: Props) => {
     setOpen(false);
   };
 
-  const {
-    handleSubmit,
-    reset,
-    setValue,
-    control,
-    setError,
-    getValues,
-    formState: { errors },
-  } = useForm<FormDataType>({
+  const { handleSubmit, reset, control, getValues } = useForm<FormDataType>({
     defaultValues: {
+      invoice_reference: '',
       invoice_refference_number: '',
       invoice_date: null,
       invoice_description: '',
@@ -126,7 +112,7 @@ const CreateInvoiceDialog = (props: Props) => {
   }
 
   const onSubmit = (data: FormDataType) => {
-    const bodySubmit = {
+    const bodySubmit: CREATE_INVOICE_BODY = {
       invoices: [
         {
           invoiceReference: data.invoice_refference_number,
@@ -174,7 +160,6 @@ const CreateInvoiceDialog = (props: Props) => {
         }}
         fullScreen={fullScreen}
       >
-        <LoadingFullPage isLoading={is_global_loading} />
         <DialogTitle id="alert-dialog-title">Create Invoice</DialogTitle>
         <DialogContent>
           <form id="form-create-invoice" onSubmit={handleSubmit(onSubmit)}>

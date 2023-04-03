@@ -64,3 +64,21 @@ export interface INVOICE_DATA {
   };
   invoiceGrossTotal: number;
 }
+
+export interface CREATE_INVOICE_BODY {
+  invoices: {
+    invoiceReference: string;
+    invoiceNumber: string;
+    currency: string;
+    invoiceDate: string;
+    dueDate: string;
+    description: string;
+    items: {
+      itemReference: string;
+      description: string;
+      quantity: number;
+      rate: string;
+      itemName: string;
+    }[];
+  }[];
+}

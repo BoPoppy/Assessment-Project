@@ -1,6 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import {
+  CREATE_INVOICE_BODY,
   FETCH_INVOICE_PARAMS_TYPE,
   INVOICE_RESPONSE_TYPE,
 } from 'models/invoice';
@@ -34,7 +35,7 @@ function* fetchInvoiceRequest(
 
 function* createNewInvoiceRequest(
   action: PayloadAction<{
-    data: any;
+    data: CREATE_INVOICE_BODY;
   }>
 ) {
   try {
@@ -48,6 +49,7 @@ function* createNewInvoiceRequest(
   } catch (error) {
     console.log(error);
     yield put(updateIsGlobalLoading(false));
+    toast.error('Error createing new invoice');
   }
 }
 
