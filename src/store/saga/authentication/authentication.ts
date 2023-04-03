@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { ACCESS_TOKEN, ORG_TOKEN } from 'constant/global';
 import { LOGIN_BODY_TYPE, LOGIN_RESPONSE_TYPE } from 'models/authentication';
 import { USER_RESPONSE_TYPE } from 'models/users';

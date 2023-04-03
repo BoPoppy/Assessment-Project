@@ -257,6 +257,9 @@ const CreateInvoiceDialog = (_props: Props) => {
                           id="invoice_date"
                           InputProps={{ readOnly: true }}
                           error={!!fieldState.error}
+                          inputProps={{
+                            'data-testid': 'start-date-create',
+                          }}
                         />
                       }
                     />
@@ -309,6 +312,9 @@ const CreateInvoiceDialog = (_props: Props) => {
                           fullWidth
                           InputProps={{ readOnly: true }}
                           error={!!fieldState.error}
+                          inputProps={{
+                            'data-testid': 'end-date-create',
+                          }}
                         />
                       }
                     />
@@ -506,7 +512,12 @@ const CreateInvoiceDialog = (_props: Props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
-          <Button type="submit" form="form-create-invoice" variant="contained">
+          <Button
+            type="submit"
+            form="form-create-invoice"
+            variant="contained"
+            data-testid="submit-invoice-btn"
+          >
             Submit
           </Button>
         </DialogActions>
