@@ -43,8 +43,8 @@ const Login = () => {
     formState: { errors },
   } = useForm<FormDataType>({
     defaultValues: {
-      username: 'dung+octopus4@101digital.io',
-      password: 'Abc@123456',
+      username: '', //dung+octopus4@101digital.io
+      password: '', //Abc@123456
     },
   });
 
