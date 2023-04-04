@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { APP_ROUTES } from 'constant/app-routes';
 import { ACCESS_TOKEN, ORG_TOKEN } from 'constant/global';
 
 const token = localStorage.getItem(ACCESS_TOKEN);

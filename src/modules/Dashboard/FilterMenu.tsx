@@ -206,7 +206,14 @@ const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
                 customInput={
-                  <TextField size="small" InputProps={{ readOnly: true }} />
+                  <TextField
+                    size="small"
+                    InputProps={{ readOnly: true }}
+                    placeholder="Start date"
+                    inputProps={{
+                      'data-testid': 'start-date-filter-menu',
+                    }}
+                  />
                 }
               />
             </Grid>
@@ -218,7 +225,16 @@ const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
                 customInput={
-                  <TextField size="small" InputProps={{ readOnly: true }} />
+                  <TextField
+                    size="small"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    placeholder="End date"
+                    inputProps={{
+                      'data-testid': 'end-date-filter-menu',
+                    }}
+                  />
                 }
               />
             </Grid>
@@ -228,6 +244,7 @@ const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
               color="secondary"
               variant="outlined"
               onClick={onClickClearDate}
+              data-testid="btn-clear-date"
             >
               Clear date
             </Button>
@@ -235,6 +252,7 @@ const FilterMenu = ({ dataFilter, setDataFilter }: Props) => {
               color="secondary"
               variant="contained"
               onClick={onClickSubmitDate}
+              data-testid="btn-submit-date"
             >
               Filter Date
             </Button>

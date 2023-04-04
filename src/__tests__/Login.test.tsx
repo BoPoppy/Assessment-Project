@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Login from 'modules/Login';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { makeStore } from 'store/index';
+import { makeStoreTest } from 'store/index';
 import ThemeProviderMock from '../mocks/ThemeProviderMock';
 
 jest.mock('axios', () => {
@@ -34,7 +34,7 @@ describe('<Login />', () => {
   });
   it('Login Title should be rendered', async () => {
     render(
-      <Provider store={makeStore()}>
+      <Provider store={makeStoreTest()}>
         <BrowserRouter>
           <ThemeProviderMock>
             <Login />
@@ -47,7 +47,7 @@ describe('<Login />', () => {
   });
   it('If input nothing and submit, a error message appears', async () => {
     render(
-      <Provider store={makeStore()}>
+      <Provider store={makeStoreTest()}>
         <BrowserRouter>
           <ThemeProviderMock>
             <Login />
@@ -70,7 +70,7 @@ describe('<Login />', () => {
   });
   it('After input a wrong email format, a error message appears', async () => {
     render(
-      <Provider store={makeStore()}>
+      <Provider store={makeStoreTest()}>
         <BrowserRouter>
           <ThemeProviderMock>
             <Login />
